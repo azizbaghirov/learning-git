@@ -25,3 +25,21 @@ CMD ["bash"]
 # docker login nexus.digirella.local:8090
 7. Push the image to repo:
 # docker push nexus.digirella.local:8090/java17:1.1
+
+############################################################
+1. If we want to pull our image to K8S cluster, first we must to create secret of type 'kubernetes.io/dockerconfigjson' with the following specifiction:
+# kubectl create secret docker-registry private-reg-cred --docker-server=nexus.digirella.local:8090 --docker-username=admin --docker-password=<nexus_admin_password> --docker-email=dock_user@myprivateregistry.com
+2. Then we have to add to '/etc/containerd/config.toml' the following section:
+
+[plugins."io.containerd.grpc.v1.cri".registry.mirrors."nexus.digirella.local:8090"]
+          endpoint = ["http://nexus.digirella.local:8090"]
+        [plugins."io.containerd.grpc.v1.cri".registry.configs]
+          [plugins."io.containerd.grpc.v1.cri".registry.configs."nexus.digirella.local:8090".tls]
+            insecure_skip_verify = true
+            
+3. After adding these lines, restart container service:
+# systemctl restart containerd
+
+4. Then, in the definition file, we must specify the following field under spec section:
+imagePullSecrets:
+         - name: private-reg-cred
