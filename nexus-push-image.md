@@ -37,7 +37,7 @@ CMD ["bash"]
           [plugins."io.containerd.grpc.v1.cri".registry.configs."nexus.digirella.local:8090".tls]
             insecure_skip_verify = true
             
-3. After adding these lines, restart container service:
+3. After adding these lines, restart containerd service:
 # systemctl restart containerd
 
 4. Then, in the definition file, we must specify the following field under spec section:
