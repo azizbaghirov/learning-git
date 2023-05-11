@@ -15,7 +15,7 @@ CMD ["bash"]
 3. Test the image:
 # docker run -it --rm nexus-java17
 4. Create a tag for the image:
-# docker tag ae377e21e345 nexus.digirella.local:8090/java17:1.1 (here ae377e21e345 is the image id)
+# docker tag ae377e21e345 nexus-repo.minagro.local:8090/java17:1.1 (here ae377e21e345 is the image id)
 5. Add the repo URL to insecure connections of docker (we must add a hostname to /etc/hosts file):
 # vi /etc/docker/daemon.json
 {
