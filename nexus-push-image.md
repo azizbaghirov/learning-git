@@ -19,22 +19,22 @@ CMD ["bash"]
 5. Add the repo URL to insecure connections of docker (we must add a hostname to /etc/hosts file):
 # vi /etc/docker/daemon.json
 {
-"insecure-registries": ["nexus.digirella.local:8090"]
+"insecure-registries": ["nexus-repo.minagro.local:8090"]
 }
 6. Login to the repo:
-# docker login nexus.digirella.local:8090
+# docker login nexus-repo.minagro.local:8090
 7. Push the image to repo:
-# docker push nexus.digirella.local:8090/java17:1.1
+# docker push nexus-repo.minagro.local:8090/java17:1.1
 
 ############################################################
 1. If we want to pull our image to K8S cluster, first we must to create secret of type 'kubernetes.io/dockerconfigjson' with the following specifiction:
-# kubectl create secret docker-registry private-reg-cred --docker-server=nexus.digirella.local:8090 --docker-username=admin --docker-password=<nexus_admin_password> --docker-email=dock_user@myprivateregistry.com
+# kubectl create secret docker-registry private-reg-cred --docker-server=nexus-repo.minagro.local:8090 --docker-username=admin --docker-password=<nexus_admin_password> --docker-email=dock_user@myprivateregistry.com
 2. Then we have to add to '/etc/containerd/config.toml' the following section:
 
-[plugins."io.containerd.grpc.v1.cri".registry.mirrors."nexus.digirella.local:8090"]
-          endpoint = ["http://nexus.digirella.local:8090"]
+[plugins."io.containerd.grpc.v1.cri".registry.mirrors."nexus-repo.minagro.local:8090"]
+          endpoint = ["http://nexus-repo.minagro.local:8090"]
         [plugins."io.containerd.grpc.v1.cri".registry.configs]
-          [plugins."io.containerd.grpc.v1.cri".registry.configs."nexus.digirella.local:8090".tls]
+          [plugins."io.containerd.grpc.v1.cri".registry.configs."nexus-repo.minagro.local:8090".tls]
             insecure_skip_verify = true
             
 3. After adding these lines, restart containerd service:
