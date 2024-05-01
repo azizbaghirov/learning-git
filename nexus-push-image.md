@@ -15,16 +15,16 @@ CMD ["bash"]
 3. Test the image:
 # docker run -it --rm nexus-java17
 4. Create a tag for the image:
-# docker tag ae377e21e345 nexus-repo.minagro.local:8090/java17:1.1 (here ae377e21e345 is the image id)
+# docker tag ae377e21e345 nexus-docker.eagro.az/java17:1.1 (here ae377e21e345 is the image id)
 5. Add the repo URL to insecure connections of docker (we must add a hostname to /etc/hosts file):
 # vi /etc/docker/daemon.json
 {
 "insecure-registries": ["nexus-repo.minagro.local:8090"]
 }
 6. Login to the repo:
-# docker login nexus-repo.minagro.local:8090
+# docker login nexus-docker.eagro.az
 7. Push the image to repo:
-# docker push nexus-repo.minagro.local:8090/java17:1.1
+# docker push nexus-docker.eagro.az/java17:1.1
 
 ############################################################
 1. If we want to pull our image to K8S cluster, first we must to create secret of type 'kubernetes.io/dockerconfigjson' with the following specifiction:
